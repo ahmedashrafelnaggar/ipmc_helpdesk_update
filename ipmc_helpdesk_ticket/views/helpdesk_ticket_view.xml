@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <!--         Inherit the existing helpdesk ticket tree view -->
+        <record id="view_helpdesk_ticket_tree_inherit" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.tree.inherit</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+            <field name="arch" type="xml">
+                <!-- Modify the partner_id field to be optional -->
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="optional">1</attribute>
+                </xpath>
+                <!-- Modify the user_id field to be optional -->
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="optional">1</attribute>
+                </xpath>
+
+                <!-- Remove the optional attribute from the specific team_id field -->
+                <xpath expr="//field[@name='team_id'][@invisible=&quot;not context.get('default_team_id', False)&quot;]"
+                       position="attributes">
+                    <attribute name="optional" eval="False"/> <!-- This will remove the optional attribute -->
+                </xpath>
+
+                <xpath expr="//field[@name='team_id'][@invisible=&quot;context.get('default_team_id', False)&quot;]"
+                       position="attributes">
+                    <attribute name="optional">1</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
+
